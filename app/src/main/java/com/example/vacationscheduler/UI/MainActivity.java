@@ -1,8 +1,10 @@
-package com.example.vacationscheduler;
+package com.example.vacationscheduler.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.vacationscheduler.R;
 
 public class MainActivity extends AppCompatActivity {
 
