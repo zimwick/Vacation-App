@@ -6,4 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".UI.VacationDetails">
 
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="200dp"
+        android:background="#03A9F4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="first"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="first"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="first"></TextView>
+        />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
