@@ -1,6 +1,8 @@
 package com.example.vacationscheduler.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import com.example.vacationscheduler.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class VacationList extends AppCompatActivity {
 private Repository repository;
@@ -32,13 +35,28 @@ private Repository repository;
                 startActivity(intent);
             }
         });
-
-        System.out.println(getIntent().getStringExtra("test"));
+        RecyclerView recyclerView=findViewById(R.id.recyclerview);
+        repository= new Repository(getApplication());
+        List<Vacation> allVacations = repository.getAllVacations();
+        final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        recyclerView.setAdapter(vacationAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        vacationAdapter.setVacations(allVacations);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_vacation_list, menu);
         return true;
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        List<Vacation> allVacations = repository.getAllVacations();
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        recyclerView.setAdapter(vacationAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        vacationAdapter.setVacations(allVacations);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
