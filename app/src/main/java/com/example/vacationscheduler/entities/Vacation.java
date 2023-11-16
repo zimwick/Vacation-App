@@ -11,10 +11,10 @@ public class Vacation {
     private int vacationID;
     private String vacationTitle;
     private String vacationHotel;
-    private LocalDate vacationStartDate;
-    private LocalDate vacationEndDate;
+    private String vacationStartDate;
+    private String vacationEndDate;
 
-    public Vacation(int vacationID, String vacationTitle, String vacationHotel, LocalDate vacationStartDate, LocalDate vacationEndDate) {
+    public Vacation(int vacationID, String vacationTitle, String vacationHotel, String vacationStartDate, String vacationEndDate) {
         this.vacationID = vacationID;
         this.vacationTitle = vacationTitle;
         this.vacationHotel = vacationHotel;
@@ -46,19 +46,19 @@ public class Vacation {
         this.vacationHotel = vacationHotel;
     }
 
-    public LocalDate getVacationStartDate() {
+    public String getVacationStartDate() {
         return vacationStartDate;
     }
 
-    public void setVacationStartDate(LocalDate vacationStartDate) {
+    public void setVacationStartDate(String vacationStartDate) {
         this.vacationStartDate = vacationStartDate;
     }
 
-    public LocalDate getVacationEndDate() {
+    public String getVacationEndDate() {
         return vacationEndDate;
     }
 
-    public void setVacationEndDate(LocalDate vacationEndDate) {
+    public void setVacationEndDate(String vacationEndDate) {
         this.vacationEndDate = vacationEndDate;
     }
 }

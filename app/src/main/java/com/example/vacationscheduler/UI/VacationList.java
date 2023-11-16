@@ -10,10 +10,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.vacationscheduler.R;
+import com.example.vacationscheduler.database.Repository;
+import com.example.vacationscheduler.entities.Excursion;
+import com.example.vacationscheduler.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class VacationList extends AppCompatActivity {
+import java.time.LocalDate;
 
+public class VacationList extends AppCompatActivity {
+private Repository repository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +43,13 @@ public class VacationList extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==R.id.sample){
-            Toast.makeText(VacationList.this, "put in sample data", Toast.LENGTH_LONG).show();
+            repository = new Repository(getApplication());
+            //Toast.makeText(VacationList.this, "put in sample data", Toast.LENGTH_LONG).show();
+            Vacation vacation = new Vacation(0, "Florida", "Marriott", "2023-05-13", "2023-05-18");
+            repository.insert(vacation);
+            Excursion excursion = new Excursion(0, "rock climbing", "2023-05-14", 1);
+            repository.insert(excursion);
+
             return true;
         }
         if(item.getItemId()==android.R.id.home){
