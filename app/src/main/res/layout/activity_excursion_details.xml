@@ -6,4 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".UI.ExcursionDetails">
 
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="409dp"
+        android:layout_height="200dp"
+        android:background="#03A9F4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:text="Title:"></TextView>
+
+                <EditText
+                    android:id="@+id/extitletext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:hint="title"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:text="Date:"></TextView>
+
+                <EditText
+                    android:id="@+id/exdatetext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:hint="2000-05-28"></EditText>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
