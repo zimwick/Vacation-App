@@ -1,9 +1,13 @@
 package com.example.vacationscheduler.UI;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -39,6 +43,7 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
                     intent.putExtra("Title", current.getExcursionTitle());
                     intent.putExtra("Date", current.getExcursionDate());
                     intent.putExtra("vacID", current.getVacationID());
+
                     context.startActivity(intent);
                 }
             });

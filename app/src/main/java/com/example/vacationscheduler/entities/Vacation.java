@@ -1,6 +1,7 @@
 package com.example.vacationscheduler.entities;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDate;
@@ -20,6 +21,10 @@ public class Vacation {
         this.vacationHotel = vacationHotel;
         this.vacationStartDate = vacationStartDate;
         this.vacationEndDate = vacationEndDate;
+    }
+    @Ignore
+    public Vacation(int vacationID) {
+        this.vacationID = vacationID;
     }
 
     public int getVacationID() {

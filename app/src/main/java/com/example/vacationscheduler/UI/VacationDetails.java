@@ -17,6 +17,7 @@ import com.example.vacationscheduler.entities.Excursion;
 import com.example.vacationscheduler.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kotlin.collections.ArrayDeque;
@@ -57,6 +58,8 @@ public class VacationDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(VacationDetails.this, ExcursionDetails.class);
+                //sends the actual viewed vacation ID over
+                intent.putExtra("vacID", vacationID);
                 startActivity(intent);
             }
         });
@@ -65,7 +68,7 @@ public class VacationDetails extends AppCompatActivity {
         final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
         recyclerView.setAdapter(excursionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Excursion> filteredExcursions = new ArrayDeque<>();
+        List<Excursion> filteredExcursions = new ArrayList<>();
         for (Excursion e : repository.getAllExcursions()){
             if (e.getVacationID() == vacationID) filteredExcursions.add(e);
         }
@@ -90,6 +93,21 @@ public class VacationDetails extends AppCompatActivity {
                 repository.update(vacation);
                 this.finish();
             }
+        } else if (item.getItemId() == R.id.vacationdelete){
+            if(vacationID != -1){
+                List<Excursion> excursionsToDelete = repository.getAssociatedExcursions(vacationID);
+                for(Excursion excursion: excursionsToDelete){
+                    repository.delete(excursion);
+                }
+                Vacation vacation = new Vacation(vacationID);
+                repository.delete(vacation);
+                this.finish();
+            }
+        }
+        else if (item.getItemId() == R.id.vacationrefresh){
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
         }
         return true;
     }

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Refresh"
-        android:id="@+id/excursionrefresh" />
     <item android:title="Save Excursion"
         android:id="@+id/excursionsave" />
     <item android:title="Delete Excursion"
