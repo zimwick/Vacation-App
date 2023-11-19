@@ -1,9 +1,11 @@
 package com.example.vacationscheduler.UI;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -95,19 +97,49 @@ public class VacationDetails extends AppCompatActivity {
             }
         } else if (item.getItemId() == R.id.vacationdelete){
             if(vacationID != -1){
+                // Check if there are any associated excursions
                 List<Excursion> excursionsToDelete = repository.getAssociatedExcursions(vacationID);
-                for(Excursion excursion: excursionsToDelete){
-                    repository.delete(excursion);
+                if (!excursionsToDelete.isEmpty()) {
+                    // Show confirmation dialog
+                    new AlertDialog.Builder(this)
+                            .setTitle("Delete Vacation")
+                            .setMessage("Deleting this vacation will also delete all its associated excursions. Are you sure you want to proceed?")
+                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // User clicked Confirm, so delete the excursions and vacation
+                                    for(Excursion excursion: excursionsToDelete){
+                                        repository.delete(excursion);
+                                    }
+                                    Vacation vacation = new Vacation(vacationID);
+                                    repository.delete(vacation);
+                                    VacationDetails.this.finish();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // User clicked Cancel, do nothing
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                } else {
+                    // If there are no associated excursions, delete the vacation directly
+                    Vacation vacation = new Vacation(vacationID);
+                    repository.delete(vacation);
+                    this.finish();
                 }
-                Vacation vacation = new Vacation(vacationID);
-                repository.delete(vacation);
-                this.finish();
             }
         }
+
         else if (item.getItemId() == R.id.vacationrefresh){
             Intent intent = getIntent();
             finish();
             startActivity(intent);
+        }
+        else if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return true;
     }

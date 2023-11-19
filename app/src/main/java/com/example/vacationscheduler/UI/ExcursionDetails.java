@@ -61,6 +61,17 @@ public class ExcursionDetails extends AppCompatActivity {
                 this.finish();
             }
         }
+        else if(item.getItemId() == R.id.excursiondelete){
+            if(excursionID != -1){
+                Excursion excursion = new Excursion(excursionID);
+                repository.delete(excursion);
+                this.finish();
+            }
+        }
+        else if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
         return true;
     }
 }

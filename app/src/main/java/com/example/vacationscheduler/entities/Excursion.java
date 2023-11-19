@@ -22,10 +22,8 @@ public class Excursion {
     }
 
     @Ignore
-    public Excursion(String excursionTitle, String excursionDate, int vacationID) {
-        this.excursionTitle = excursionTitle;
-        this.excursionDate = excursionDate;
-        this.vacationID = vacationID;
+    public Excursion(int excursionID) {
+        this.excursionID = excursionID;
     }
 
     public int getExcursionID() {
