@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.vacationscheduler.R;
@@ -20,7 +22,9 @@ import com.example.vacationscheduler.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import kotlin.collections.ArrayDeque;
 
@@ -55,6 +59,21 @@ public class VacationDetails extends AppCompatActivity {
         editHotel.setText(hotel);
         editStartDate.setText(startDate);
         editEndDate.setText(endDate);
+
+        editStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(editStartDate);
+            }
+        });
+
+        editEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(editEndDate);
+            }
+        });
+
         fab.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -75,6 +94,24 @@ public class VacationDetails extends AppCompatActivity {
             if (e.getVacationID() == vacationID) filteredExcursions.add(e);
         }
         excursionAdapter.setExcursions(filteredExcursions);
+    }
+
+    private void showDatePickerDialog(final EditText dateEditText) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                VacationDetails.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String selectedDate = String.format(Locale.getDefault(), "%d-%02d-%02d", year, month + 1, dayOfMonth);
+                        dateEditText.setText(selectedDate);
+                    }
+                }, year, month, day);
+        datePickerDialog.show();
     }
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_vacationdetails, menu);

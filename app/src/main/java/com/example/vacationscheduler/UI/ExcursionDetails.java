@@ -2,16 +2,22 @@ package com.example.vacationscheduler.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.vacationscheduler.R;
 import com.example.vacationscheduler.database.Repository;
 import com.example.vacationscheduler.entities.Excursion;
 import com.example.vacationscheduler.entities.Vacation;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 public class ExcursionDetails extends AppCompatActivity {
 
@@ -38,6 +44,31 @@ public class ExcursionDetails extends AppCompatActivity {
         excursionID = getIntent().getIntExtra("ID", -1);
         vacationID = getIntent().getIntExtra("vacID", -1);
 
+        editDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(editDate);
+            }
+        });
+
+    }
+
+    private void showDatePickerDialog(final EditText dateEditText) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                ExcursionDetails.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String selectedDate = String.format(Locale.getDefault(), "%d-%02d-%02d", year, month + 1, dayOfMonth);
+                        dateEditText.setText(selectedDate);
+                    }
+                }, year, month, day);
+        datePickerDialog.show();
     }
 
     public boolean onCreateOptionsMenu(Menu menu){

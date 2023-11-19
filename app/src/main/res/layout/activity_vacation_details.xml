@@ -70,7 +70,8 @@
                     android:id="@+id/startdatetext"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:hint="1990-05-25"></EditText>
+                    android:hint="1990-05-25"
+                    android:focusable="false"></EditText>
             </LinearLayout>
 
             <LinearLayout
@@ -88,7 +89,8 @@
                     android:id="@+id/enddatetext"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:hint="1990-05-29"></EditText>
+                    android:hint="1990-05-29"
+                    android:focusable="false"></EditText>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

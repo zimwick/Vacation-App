@@ -52,7 +52,8 @@
                     android:id="@+id/exdatetext"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:hint="2000-05-28"></EditText>
+                    android:hint="2000-05-28"
+                    android:focusable="false"></EditText>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
