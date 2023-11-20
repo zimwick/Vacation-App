@@ -3,6 +3,7 @@ package com.example.vacationscheduler.UI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -84,13 +85,15 @@ public class ExcursionDetails extends AppCompatActivity {
                 else excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() -1).getExcursionID() + 1;
                 excursion = new Excursion(excursionID, editTitle.getText().toString(), editDate.getText().toString(), vacationID);
                 repository.insert(excursion);
-                this.finish();
             }
             else{
                 excursion = new Excursion(excursionID, editTitle.getText().toString(), editDate.getText().toString(), vacationID);
                 repository.update(excursion);
-                this.finish();
             }
+            Intent data = new Intent();
+            setResult(RESULT_OK, data);
+            finish();
+
         }
         else if(item.getItemId() == R.id.excursiondelete){
             if(excursionID != -1){

@@ -1,5 +1,7 @@
 package com.example.vacationscheduler.UI;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,10 +42,27 @@ public class VacationDetails extends AppCompatActivity {
     EditText editEndDate;
     Repository repository;
 
+    private ActivityResultLauncher<Intent> excursionResultLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vacation_details);
+
+
+        // Initialize the result launcher
+        excursionResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        // Refresh your list of excursions here
+                        updateExcursionList();
+                    }
+                }
+        );
+
+
+
         FloatingActionButton fab = findViewById(R.id.floatingActionButton2);
 
         editTitle = findViewById(R.id.titletext);
@@ -81,7 +100,8 @@ public class VacationDetails extends AppCompatActivity {
                 Intent intent = new Intent(VacationDetails.this, ExcursionDetails.class);
                 //sends the actual viewed vacation ID over
                 intent.putExtra("vacID", vacationID);
-                startActivity(intent);
+                //startActivity(intent);
+                excursionResultLauncher.launch(intent);
             }
         });
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
@@ -95,6 +115,14 @@ public class VacationDetails extends AppCompatActivity {
         }
         excursionAdapter.setExcursions(filteredExcursions);
     }
+
+    private void updateExcursionList() {
+        // Implementation to refresh the list of excursions
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
 
     private void showDatePickerDialog(final EditText dateEditText) {
         Calendar calendar = Calendar.getInstance();
