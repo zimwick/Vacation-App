@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.vacationscheduler.R;
 import com.example.vacationscheduler.database.Repository;
@@ -23,8 +24,11 @@ import com.example.vacationscheduler.entities.Excursion;
 import com.example.vacationscheduler.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -147,6 +151,24 @@ public class VacationDetails extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == R.id.vacationsave){
+            String startDateStr = editStartDate.getText().toString();
+            String endDateStr = editEndDate.getText().toString();
+
+            // Parse the dates
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            try {
+                Date startDate = sdf.parse(startDateStr);
+                Date endDate = sdf.parse(endDateStr);
+
+                // Check if end date is after start date
+                if (endDate != null && startDate != null && !endDate.after(startDate)) {
+                    Toast.makeText(this, "End date must be after start date", Toast.LENGTH_LONG).show();
+                    return true; // Return true to indicate that you have handled the user's action
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // Handle parsing error if needed
+            }
             Vacation vacation;
             if (vacationID == -1){
                 if(repository.getAllVacations().size() == 0) vacationID = 1;
@@ -195,12 +217,6 @@ public class VacationDetails extends AppCompatActivity {
                     this.finish();
                 }
             }
-        }
-
-        else if (item.getItemId() == R.id.vacationrefresh){
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
         }
         else if (item.getItemId() == android.R.id.home) {
             onBackPressed();

@@ -44,6 +44,8 @@ public class ExcursionDetails extends AppCompatActivity {
         editDate.setText(date);
         excursionID = getIntent().getIntExtra("ID", -1);
         vacationID = getIntent().getIntExtra("vacID", -1);
+        //editNote = findViewById(R.id.note);
+        //editDate1 = findViewById(R.id.date);
 
         editDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +108,20 @@ public class ExcursionDetails extends AppCompatActivity {
             onBackPressed();
             return true;
         }
+        /*else if (item.getItemId() == android.R.id.share){
+            Intent sentIntent = new Intent();
+            sentIntent.setAction(Intent.ACTION_SEND);
+            sentIntent.putExtra(Intent.EXTRA_TEXT, editNote.getText().toString() + "EXTRA_TEXT");
+            sentIntent.putExtra(Intent.EXTRA_TITLE, editNote.getText().toString() + "EXTRA_TITLE");
+            sentIntent.setType("text/plain");
+            Intent shareIntent = Intent.createChooser(sentIntent, null);
+            startActivity(shareIntent);
+            return true;
+        }
+        else if (item.getItemId() == android.R.id.notify){
+
+        }*/
         return true;
     }
+
 }
