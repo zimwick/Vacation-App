@@ -2,6 +2,7 @@ package com.example.vacationscheduler.UI;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,6 +46,7 @@ public class VacationDetails extends AppCompatActivity {
     EditText editStartDate;
     EditText editEndDate;
     Repository repository;
+    private static final int EXCURSION_DETAILS_REQUEST_CODE = 1;
 
     private ActivityResultLauncher<Intent> excursionResultLauncher;
 

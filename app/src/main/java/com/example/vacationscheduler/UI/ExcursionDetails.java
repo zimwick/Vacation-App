@@ -129,9 +129,10 @@ public class ExcursionDetails extends AppCompatActivity {
                 repository.update(excursion);
             }
 
-            Intent data = new Intent();
-            setResult(RESULT_OK, data);
-            this.finish();
+            Intent mainIntent = new Intent(ExcursionDetails.this, VacationList.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Clear the activity stack
+            startActivity(mainIntent);
+            finish();
 
         }
         else if(item.getItemId() == R.id.excursiondelete){
@@ -140,6 +141,10 @@ public class ExcursionDetails extends AppCompatActivity {
                 repository.delete(excursion);
                 this.finish();
             }
+            Intent mainIntent = new Intent(ExcursionDetails.this, VacationList.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Clear the activity stack
+            startActivity(mainIntent);
+            finish();
         }
         else if (item.getItemId() == android.R.id.home) {
             onBackPressed();
