@@ -104,7 +104,6 @@ public class VacationDetails extends AppCompatActivity {
                 Intent intent = new Intent(VacationDetails.this, ExcursionDetails.class);
                 //sends the actual viewed vacation ID over
                 intent.putExtra("vacID", vacationID);
-                //startActivity(intent);
                 excursionResultLauncher.launch(intent);
             }
         });
@@ -149,6 +148,7 @@ public class VacationDetails extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_vacationdetails, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == R.id.vacationsave){
             String startDateStr = editStartDate.getText().toString();

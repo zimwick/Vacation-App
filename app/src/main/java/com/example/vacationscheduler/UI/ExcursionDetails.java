@@ -11,19 +11,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.vacationscheduler.R;
 import com.example.vacationscheduler.database.Repository;
 import com.example.vacationscheduler.entities.Excursion;
 import com.example.vacationscheduler.entities.Vacation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class ExcursionDetails extends AppCompatActivity {
 
     String title;
     String date;
+    String vacationStart;
+    String vacationEnd;
     int excursionID;
     int vacationID;
     EditText editTitle;
@@ -44,6 +50,8 @@ public class ExcursionDetails extends AppCompatActivity {
         editDate.setText(date);
         excursionID = getIntent().getIntExtra("ID", -1);
         vacationID = getIntent().getIntExtra("vacID", -1);
+        //vacationStart = getIntent().getStringExtra("vacStart");
+        //vacationEnd = getIntent().getStringExtra("vacEnd");
         //editNote = findViewById(R.id.note);
         //editDate1 = findViewById(R.id.date);
 
@@ -79,8 +87,36 @@ public class ExcursionDetails extends AppCompatActivity {
         return true;
     }
 
+    private Date parseDate(String dateStr) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            return sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private boolean isDateInRange(Date date, Date startDate, Date endDate) {
+        return date != null && !date.before(startDate) && !date.after(endDate);
+    }
+
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == R.id.excursionsave){
+            Vacation vacation = repository.getVacationByID(vacationID);
+
+            Date excursionDate = parseDate(editDate.getText().toString());
+            Date vacationStartDate = parseDate(vacation.getVacationStartDate());
+            Date vacationEndDate = parseDate(vacation.getVacationEndDate());
+
+            if (excursionDate != null && vacationStartDate != null && vacationEndDate != null) {
+                // Check if the excursion date is within the vacation range
+                if (!isDateInRange(excursionDate, vacationStartDate, vacationEndDate)) {
+                    Toast.makeText(this, "Excursion date must be within the vacation range", Toast.LENGTH_LONG).show();
+                    return true; // Return true to indicate that you have handled the user's action
+                }
+            }
+
             Excursion excursion;
             if (excursionID == -1){
                 if(repository.getAllExcursions().size()== 0) excursionID = 1;
@@ -92,9 +128,10 @@ public class ExcursionDetails extends AppCompatActivity {
                 excursion = new Excursion(excursionID, editTitle.getText().toString(), editDate.getText().toString(), vacationID);
                 repository.update(excursion);
             }
+
             Intent data = new Intent();
             setResult(RESULT_OK, data);
-            finish();
+            this.finish();
 
         }
         else if(item.getItemId() == R.id.excursiondelete){

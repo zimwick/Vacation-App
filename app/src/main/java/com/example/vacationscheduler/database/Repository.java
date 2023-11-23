@@ -39,6 +39,23 @@ public class Repository {
         return mAllVacations;
     }
 
+    public Vacation getVacationByID(int vacationID) {
+        final Vacation[] vacation = new Vacation[1]; // Create an array to hold the result
+
+        databaseExecutor.execute(() -> {
+            vacation[0] = mVacationDAO.getVacationById(vacationID); // Fetch the Vacation object
+        });
+
+        // Wait for the asynchronous operation to complete (not recommended)
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return vacation[0]; // Return the fetched Vacation object
+    }
+
     public List<Excursion> getAllExcursions(){
         databaseExecutor.execute(()->{
             mAllExcursions=mExcursionDAO.getAllExcursions();
@@ -50,6 +67,7 @@ public class Repository {
         }
         return mAllExcursions;
     }
+
 
     public List<Excursion> getAssociatedExcursions(int vacationID){
         databaseExecutor.execute(()->{
