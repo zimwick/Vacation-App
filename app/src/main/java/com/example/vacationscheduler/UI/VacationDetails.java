@@ -241,7 +241,7 @@ public class VacationDetails extends AppCompatActivity {
         }
         else if (item.getItemId() == R.id.vacationshare){
             shareVacationDetails();
-            //return true;
+            return true;
         }
         else if (item.getItemId() == android.R.id.home) {
             onBackPressed();
