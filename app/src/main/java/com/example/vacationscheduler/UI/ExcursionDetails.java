@@ -2,7 +2,10 @@ package com.example.vacationscheduler.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -146,23 +149,28 @@ public class ExcursionDetails extends AppCompatActivity {
             startActivity(mainIntent);
             finish();
         }
+        else if (item.getItemId() == R.id.excursionnotify) {
+            String dateFromScreen = editDate.getText().toString();
+            String myFormat = "yyyy-MM-dd";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate = null;
+            try{
+                myDate = sdf.parse(dateFromScreen);
+            }catch (ParseException e){
+
+            }
+            Long trigger = myDate.getTime();
+            Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
+            intent.putExtra("key", title + " starts today!");
+            PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            return true;
+        }
         else if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
-        /*else if (item.getItemId() == android.R.id.share){
-            Intent sentIntent = new Intent();
-            sentIntent.setAction(Intent.ACTION_SEND);
-            sentIntent.putExtra(Intent.EXTRA_TEXT, editNote.getText().toString() + "EXTRA_TEXT");
-            sentIntent.putExtra(Intent.EXTRA_TITLE, editNote.getText().toString() + "EXTRA_TITLE");
-            sentIntent.setType("text/plain");
-            Intent shareIntent = Intent.createChooser(sentIntent, null);
-            startActivity(shareIntent);
-            return true;
-        }
-        else if (item.getItemId() == android.R.id.notify){
-
-        }*/
         return true;
     }
 
