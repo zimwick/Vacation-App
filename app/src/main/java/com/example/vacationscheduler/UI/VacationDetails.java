@@ -12,6 +12,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -151,8 +152,26 @@ public class VacationDetails extends AppCompatActivity {
         return true;
     }
 
+
+    private void shareVacationDetails() {
+        // Create a text message with the vacation details
+        String vacationDetails = "Vacation Title: " + title + "\n"
+                + "Hotel: " + hotel + "\n"
+                + "Start Date: " + startDate + "\n"
+                + "End Date: " + endDate;
+
+        // Create an intent to send the vacation details
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, vacationDetails);
+
+        // Show the share chooser dialog
+        startActivity(Intent.createChooser(shareIntent, "Share Vacation Details"));
+    }
+
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == R.id.vacationsave){
+            Log.d("YourTag", "Your debug message here");
             String startDateStr = editStartDate.getText().toString();
             String endDateStr = editEndDate.getText().toString();
 
@@ -219,6 +238,10 @@ public class VacationDetails extends AppCompatActivity {
                     this.finish();
                 }
             }
+        }
+        else if (item.getItemId() == R.id.vacationshare){
+            shareVacationDetails();
+            //return true;
         }
         else if (item.getItemId() == android.R.id.home) {
             onBackPressed();
