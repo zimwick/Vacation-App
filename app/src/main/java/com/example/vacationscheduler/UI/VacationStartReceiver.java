@@ -12,10 +12,10 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.vacationscheduler.R;
 
-public class MyReceiver extends BroadcastReceiver {
-    String channel_id = "excursion";
-    static int notificationID;
+public class VacationStartReceiver extends BroadcastReceiver {
 
+    String channel_id = "vacationStart";
+    static int notificationID;
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
@@ -25,12 +25,13 @@ public class MyReceiver extends BroadcastReceiver {
         Notification n = new NotificationCompat.Builder(context, channel_id)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentText(intent.getStringExtra("key"))
-                .setContentTitle("Excursion Notification").build();
+                .setContentTitle("Vacation Start Notification").build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(notificationID++, n);
     }
+
     private void createNotificationChannel(Context context, String CHANNEL_ID){
-        CharSequence name = "Excursion Channel";
+        CharSequence name = "Vacation Start Channel";
         String description = "mychanneldescription";
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);

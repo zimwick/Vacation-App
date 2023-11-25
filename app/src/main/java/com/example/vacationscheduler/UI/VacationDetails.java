@@ -8,7 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -62,7 +65,6 @@ public class VacationDetails extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        // Refresh your list of excursions here
                         updateExcursionList();
                     }
                 }
@@ -184,11 +186,11 @@ public class VacationDetails extends AppCompatActivity {
                 // Check if end date is after start date
                 if (endDate != null && startDate != null && !endDate.after(startDate)) {
                     Toast.makeText(this, "End date must be after start date", Toast.LENGTH_LONG).show();
-                    return true; // Return true to indicate that you have handled the user's action
+                    return true;
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
-                // Handle parsing error if needed
+
             }
             Vacation vacation;
             if (vacationID == -1){
@@ -241,6 +243,50 @@ public class VacationDetails extends AppCompatActivity {
         }
         else if (item.getItemId() == R.id.vacationshare){
             shareVacationDetails();
+            return true;
+        }
+        else if (item.getItemId() == R.id.vacationnotify){
+            Calendar currentCalendar = Calendar.getInstance();
+
+            // Set the time components of currentCalendar to midnight
+            currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
+            currentCalendar.set(Calendar.MINUTE, 0);
+            currentCalendar.set(Calendar.SECOND, 0);
+            currentCalendar.set(Calendar.MILLISECOND, 0);
+
+            Date currentDate = currentCalendar.getTime();
+
+            String startDateFromScreen = editStartDate.getText().toString();
+            String endDateFromScreen = editEndDate.getText().toString();
+            String myFormat = "yyyy-MM-dd";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myStartDate = null;
+            Date myEndDate = null;
+            try {
+                myStartDate = sdf.parse(startDateFromScreen);
+                myEndDate = sdf.parse(endDateFromScreen);
+            } catch (ParseException e) {
+
+            }
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            // Check if myStartDate is before today's date at 00:00:00
+            if (myStartDate.getTime() >= currentDate.getTime()) {
+                Long trigger1 = myStartDate.getTime();
+                Intent startIntent = new Intent(VacationDetails.this, VacationStartReceiver.class);
+                int requestCode1 = RequestCodeGenerator.getNextRequestCode();
+                startIntent.putExtra("key", title + " starts today!");
+                PendingIntent sender1 = PendingIntent.getBroadcast(VacationDetails.this, requestCode1, startIntent, PendingIntent.FLAG_IMMUTABLE);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger1, sender1);
+            }
+
+            Long trigger2 = myEndDate.getTime();
+            Intent endIntent = new Intent(VacationDetails.this, VacationEndReceiver.class);
+            int requestCode2 = RequestCodeGenerator.getNextRequestCode();
+            endIntent.putExtra("key", title + " ends today!");
+            PendingIntent sender2 = PendingIntent.getBroadcast(VacationDetails.this, requestCode2, endIntent, PendingIntent.FLAG_IMMUTABLE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger2, sender2);
+
             return true;
         }
         else if (item.getItemId() == android.R.id.home) {

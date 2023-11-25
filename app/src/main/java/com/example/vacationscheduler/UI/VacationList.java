@@ -43,11 +43,7 @@ private Repository repository;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         vacationAdapter.setVacations(allVacations);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_vacation_list, menu);
-        return true;
-    }
+
     @Override
     protected void onResume(){
         super.onResume();
@@ -57,23 +53,5 @@ private Repository repository;
         recyclerView.setAdapter(vacationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         vacationAdapter.setVacations(allVacations);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId()==R.id.sample){
-            repository = new Repository(getApplication());
-            //Toast.makeText(VacationList.this, "put in sample data", Toast.LENGTH_LONG).show();
-            Vacation vacation = new Vacation(0, "Florida", "Marriott", "2023-05-13", "2023-05-18");
-            repository.insert(vacation);
-            Excursion excursion = new Excursion(0, "rock climbing", "2023-05-14", 1);
-            repository.insert(excursion);
-
-            return true;
-        }
-        if(item.getItemId()==android.R.id.home){
-            this.finish();
-            return true;
-        }
-        return true;
     }
 }

@@ -53,10 +53,6 @@ public class ExcursionDetails extends AppCompatActivity {
         editDate.setText(date);
         excursionID = getIntent().getIntExtra("ID", -1);
         vacationID = getIntent().getIntExtra("vacID", -1);
-        //vacationStart = getIntent().getStringExtra("vacStart");
-        //vacationEnd = getIntent().getStringExtra("vacEnd");
-        //editNote = findViewById(R.id.note);
-        //editDate1 = findViewById(R.id.date);
 
         editDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +112,7 @@ public class ExcursionDetails extends AppCompatActivity {
                 // Check if the excursion date is within the vacation range
                 if (!isDateInRange(excursionDate, vacationStartDate, vacationEndDate)) {
                     Toast.makeText(this, "Excursion date must be within the vacation range", Toast.LENGTH_LONG).show();
-                    return true; // Return true to indicate that you have handled the user's action
+                    return true;
                 }
             }
 
@@ -161,8 +157,9 @@ public class ExcursionDetails extends AppCompatActivity {
             }
             Long trigger = myDate.getTime();
             Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
+            int requestCode = RequestCodeGenerator.getNextRequestCode();
             intent.putExtra("key", title + " starts today!");
-            PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
