@@ -157,10 +157,17 @@ public class VacationDetails extends AppCompatActivity {
 
     private void shareVacationDetails() {
         // Create a text message with the vacation details
+        List<Excursion> excursions = repository.getAssociatedExcursions(vacationID);
+        String excursionList = "Associated Excursions: ";
+        for (Excursion excursion : excursions) {
+            excursionList = excursionList + excursion.getExcursionTitle() + ", ";
+            //System.out.println("Excursion name: " + excursion.getExcursionTitle());
+        }
         String vacationDetails = "Vacation Title: " + title + "\n"
                 + "Hotel: " + hotel + "\n"
                 + "Start Date: " + startDate + "\n"
-                + "End Date: " + endDate;
+                + "End Date: " + endDate + "\n"
+                + excursionList;
 
         // Create an intent to send the vacation details
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
