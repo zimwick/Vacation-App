@@ -161,7 +161,6 @@ public class VacationDetails extends AppCompatActivity {
         String excursionList = "Associated Excursions: ";
         for (Excursion excursion : excursions) {
             excursionList = excursionList + excursion.getExcursionTitle() + ", ";
-            //System.out.println("Excursion name: " + excursion.getExcursionTitle());
         }
         String vacationDetails = "Vacation Title: " + title + "\n"
                 + "Hotel: " + hotel + "\n"
