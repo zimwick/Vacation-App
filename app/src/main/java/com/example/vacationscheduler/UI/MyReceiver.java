@@ -15,7 +15,7 @@ import com.example.vacationscheduler.R;
 public class MyReceiver extends BroadcastReceiver {
     String channel_id = "excursion";
     static int notificationID;
-
+    //comments for commit
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
