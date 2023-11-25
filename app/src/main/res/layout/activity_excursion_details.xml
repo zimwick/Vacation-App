@@ -10,7 +10,7 @@
         android:id="@+id/scrollView"
         android:layout_width="409dp"
         android:layout_height="200dp"
-        android:background="#03A9F4"
+        android:background="#9AECFF"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
