@@ -72,3 +72,15 @@ Get notified about an upcoming excursion
 
 Git Repository
 https://gitlab.com/wgu-gitlab-environment/student-repos/jligh43/d308-mobile-application-development-android.git
+
+Compatibility
+Minimum SDK Version
+API Level 26 (Android 8.0 Oreo): Our app requires a minimum SDK version of 26. This means it is designed to run on devices with Android 8.0 (Oreo) or higher. Devices with older Android versions will not be able to install or run this application.
+
+Target SDK Version
+API Level 33: The app is targeted for API Level 33. As of the current release, this targets a future version of Android beyond Android 13 (Tiramisu). This ensures that our app is optimized for and takes full advantage of the latest Android features and best practices.
+
+Important Notes
+
+Users on devices with Android versions lower than 8.0 Oreo cannot install this app.
+We continually update the app to support newer Android versions as they are released, ensuring the best performance and user experience.
